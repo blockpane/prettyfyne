@@ -1,0 +1,81 @@
+background_color:
+  r: 255
+  g: 255
+  b: 255
+  a: 255
+button_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 10
+disabled_button_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 30
+hyperlink_color:
+  r: 100
+  g: 181
+  b: 246
+  a: 255
+text_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 222
+disabled_text_color:
+  r: 94
+  g: 94
+  b: 94
+  a: 255
+icon_color:
+  r: 100
+  g: 181
+  b: 246
+  a: 255
+disabled_icon_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 97
+place_holder_color:
+  r: 178
+  g: 178
+  b: 178
+  a: 255
+primary_color:
+  r: 166
+  g: 212
+  b: 250
+  a: 255
+hover_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 30
+focus_color:
+  r: 100
+  g: 181
+  b: 246
+  a: 255
+scroll_bar_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 153
+shadow_color:
+  r: 0
+  g: 0
+  b: 0
+  a: 66
+text_size: 13
+text_font: NotoSans-Regular.ttf
+text_bold_font: NotoSans-Bold.ttf
+text_italic_font: NotoSans-Italic.ttf
+text_bold_italic_font: NotoSans-BoldItalic.ttf
+text_monospace_font: NotoMono-Regular.ttf
+padding: 4
+icon_inline_size: 24
+scroll_bar_size: 16
+scroll_bar_small_size: 3
+
