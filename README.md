@@ -1,10 +1,10 @@
 # prettyfyne
 
-This is a tool to assist with building, and using themes for [fyne][https://github.com/fyne-io/fyne],
+This is a tool to assist with building, and using themes for [fyne](https://github.com/fyne-io/fyne),
 a golang graphical user interface library.
 
- ![prettyfyne Theme Editor][doc/chooser.png]
- ![prettyfyne Theme Editor][doc/preview.png]
+ ![prettyfyne Theme Editor](doc/chooser.png)
+ ![prettyfyne Theme Editor](doc/preview.png)
 
 Included here are:
 
@@ -15,7 +15,7 @@ Included here are:
  This is very early in the development stage, so much is missing like better color pallets, a variety of pre-built themes,
  unit tests, actually ... testing of any kind.
 
- for examples see the [_example][http://github.com/frameloss/prettyfyne/_example] folder.
+ for examples see the [_example](http://github.com/frameloss/prettyfyne/_example) folder.
 
  ## Usage
 
