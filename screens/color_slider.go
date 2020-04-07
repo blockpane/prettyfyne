@@ -124,7 +124,7 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 		updated()
 	}
 
-	rgbaEntries := widget.NewHBox(rEntry, gEntry, bEntry, aEntry)
+	rgbaEntries := fyne.NewContainerWithLayout(layout.NewGridLayout(4), rEntry, gEntry, bEntry, aEntry)
 
 	slider := widget.NewSlider(0, float64(len(colorPallet)-1))
 	slider.Step = 1.0
@@ -163,7 +163,7 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 		slider.Refresh()
 		updated()
 	})
-	colorSelect.SetSelected("Default")
+	colorSelect.SetSelected("Values")
 
 	sampleColor.Refresh()
 	return fyne.NewContainerWithLayout(

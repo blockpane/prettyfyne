@@ -19,6 +19,7 @@ func main() {
 	w := a.NewWindow("Theme Editor")
 
 	pfc := prettyfyne.ExampleEveryDayIsHalloween.ToConfig()
+	apply := &widget.Button{}
 
 	BackgroundColorChan := make(chan *color.RGBA)
 	ButtonColorChan := make(chan *color.RGBA)
@@ -69,6 +70,92 @@ func main() {
 			}
 		}
 	}()
+
+	bgc := screens.ColorSlider("BackgroundColor", pfc.BackgroundColor, BackgroundColorChan)
+	bc := screens.ColorSlider("ButtonColor", pfc.ButtonColor, ButtonColorChan)
+	dbc := screens.ColorSlider("DisabledButtonColor", pfc.DisabledButtonColor, DisabledButtonColorChan)
+	hlc := screens.ColorSlider("HyperlinkColor", pfc.HyperlinkColor, HyperlinkColorChan)
+	tc := screens.ColorSlider("TextColor", pfc.TextColor, TextColorChan)
+	dtc := screens.ColorSlider("DisabledTextColor", pfc.DisabledTextColor, DisabledTextColorChan)
+	ic := screens.ColorSlider("IconColor", pfc.IconColor, IconColorChan)
+	dic := screens.ColorSlider("DisabledIconColor", pfc.DisabledIconColor, DisabledIconColorChan)
+	phc := screens.ColorSlider("PlaceHolderColor", pfc.PlaceHolderColor, PlaceHolderColorChan)
+	pc := screens.ColorSlider("PrimaryColor", pfc.PrimaryColor, PrimaryColorChan)
+	hc := screens.ColorSlider("HoverColor", pfc.HoverColor, HoverColorChan)
+	fc := screens.ColorSlider("FocusColor", pfc.FocusColor, FocusColorChan)
+	sbc := screens.ColorSlider("ScrollBarColor", pfc.ScrollBarColor, ScrollBarColorChan)
+	sc := screens.ColorSlider("ShadowColor", pfc.ShadowColor, ShadowColorChan)
+
+	toRbga := func(c color.Color) *color.RGBA {
+		r, g, b, a := c.RGBA()
+		return &color.RGBA{
+			R: uint8(r),
+			G: uint8(g),
+			B: uint8(b),
+			A: uint8(a),
+		}
+	}
+	set := func(t prettyfyne.PrettyTheme) {
+		BackgroundColorChan <- toRbga(t.BackgroundColor)
+		ButtonColorChan <- toRbga(t.ButtonColor)
+		DisabledButtonColorChan <- toRbga(t.DisabledButtonColor)
+		HyperlinkColorChan <- toRbga(t.HyperlinkColor)
+		TextColorChan <- toRbga(t.TextColor)
+		DisabledTextColorChan <- toRbga(t.DisabledTextColor)
+		IconColorChan <- toRbga(t.IconColor)
+		DisabledIconColorChan <- toRbga(t.DisabledIconColor)
+		PlaceHolderColorChan <- toRbga(t.PlaceHolderColor)
+		PrimaryColorChan <- toRbga(t.PrimaryColor)
+		HoverColorChan <- toRbga(t.HoverColor)
+		FocusColorChan <- toRbga(t.FocusColor)
+		ScrollBarColorChan <- toRbga(t.ScrollBarColor)
+		ShadowColorChan <- toRbga(t.ShadowColor)
+		bgc.Objects = screens.ColorSlider("BackgroundColor", toRbga(t.BackgroundColor), BackgroundColorChan).Objects
+		bc.Objects = screens.ColorSlider("ButtonColor", toRbga(t.ButtonColor), ButtonColorChan).Objects
+		dbc.Objects = screens.ColorSlider("DisabledButtonColor", toRbga(t.DisabledButtonColor), DisabledButtonColorChan).Objects
+		hlc.Objects = screens.ColorSlider("HyperlinkColor", toRbga(t.HyperlinkColor), HyperlinkColorChan).Objects
+		tc.Objects = screens.ColorSlider("TextColor", toRbga(t.TextColor), TextColorChan).Objects
+		dtc.Objects = screens.ColorSlider("DisabledTextColor", toRbga(t.DisabledTextColor), DisabledTextColorChan).Objects
+		ic.Objects = screens.ColorSlider("IconColor", toRbga(t.IconColor), IconColorChan).Objects
+		dic.Objects = screens.ColorSlider("DisabledIconColor", toRbga(t.DisabledIconColor), DisabledIconColorChan).Objects
+		phc.Objects = screens.ColorSlider("PlaceHolderColor", toRbga(t.PlaceHolderColor), PlaceHolderColorChan).Objects
+		pc.Objects = screens.ColorSlider("PrimaryColor", toRbga(t.PrimaryColor), PrimaryColorChan).Objects
+		hc.Objects = screens.ColorSlider("HoverColor", toRbga(t.HoverColor), HoverColorChan).Objects
+		fc.Objects = screens.ColorSlider("FocusColor", toRbga(t.FocusColor), FocusColorChan).Objects
+		sbc.Objects = screens.ColorSlider("ScrollBarColor", toRbga(t.ScrollBarColor), ScrollBarColorChan).Objects
+		sc.Objects = screens.ColorSlider("ShadowColor", toRbga(t.ShadowColor), ShadowColorChan).Objects
+		//w.Content().Refresh()
+		apply.Tapped(&fyne.PointEvent{})
+	}
+	quickSelect := widget.NewSelect(
+		[]string{
+			"Default Theme",
+			"Default Light Theme",
+			"Every Day is Halloween",
+			"Material Light",
+			"Tree",
+			"Dracula",
+			"Cubicle Life",
+		},
+		func(s string) {
+			switch s {
+			case "Default Theme":
+				set(*prettyfyne.DefaultTheme())
+			case "Default Light Theme":
+				set(*prettyfyne.DefaultLightTheme())
+			case "Every Day is Halloween":
+				set(prettyfyne.ExampleEveryDayIsHalloween)
+			case "Material Light":
+				set(prettyfyne.ExampleMaterialLight)
+			case "Tree":
+				set(prettyfyne.ExampleTree)
+			case "Dracula":
+				set(prettyfyne.ExampleDracula)
+			case "Cubicle Life":
+				set(prettyfyne.ExampleCubicleLife)
+			}
+		},
+	)
 
 	paddingValue := widget.NewLabel(fmt.Sprintf("%d", pfc.Padding))
 	paddingSlider := widget.NewSlider(1.0, 32.0)
@@ -136,7 +223,7 @@ func main() {
 	tabYamlText := widget.NewMultiLineEntry()
 	tabYamlText.SetText("YAML theme config will show here after applying the new theme")
 
-	apply := widget.NewButtonWithIcon("Apply", theme.ConfirmIcon(), func(){
+	apply = widget.NewButtonWithIcon("Apply", theme.ConfirmIcon(), func(){
 		y, _ := yaml.Marshal(pfc)
 		pt, _, _ := prettyfyne.UnmarshalYaml(y)
 		tabYamlText.SetText(string(y))
@@ -152,20 +239,26 @@ func main() {
 			widget.NewLabel("Pretty Fyne Theme Editor"),
 			layout.NewSpacer(),
 		),
-		screens.ColorSlider("BackgroundColor", pfc.BackgroundColor, BackgroundColorChan),
-		screens.ColorSlider("ButtonColor", pfc.ButtonColor, ButtonColorChan),
-		screens.ColorSlider("DisabledButtonColor", pfc.DisabledButtonColor, DisabledButtonColorChan),
-		screens.ColorSlider("HyperlinkColor", pfc.HyperlinkColor, HyperlinkColorChan),
-		screens.ColorSlider("TextColor", pfc.TextColor, TextColorChan),
-		screens.ColorSlider("DisabledTextColor", pfc.DisabledTextColor, DisabledTextColorChan),
-		screens.ColorSlider("IconColor", pfc.IconColor, IconColorChan),
-		screens.ColorSlider("DisabledIconColor", pfc.DisabledIconColor, DisabledIconColorChan),
-		screens.ColorSlider("PlaceHolderColor", pfc.PlaceHolderColor, PlaceHolderColorChan),
-		screens.ColorSlider("PrimaryColor", pfc.PrimaryColor, PrimaryColorChan),
-		screens.ColorSlider("HoverColor", pfc.HoverColor, HoverColorChan),
-		screens.ColorSlider("FocusColor", pfc.FocusColor, FocusColorChan),
-		screens.ColorSlider("ScrollBarColor", pfc.ScrollBarColor, ScrollBarColorChan),
-		screens.ColorSlider("ShadowColor", pfc.ShadowColor, ShadowColorChan),
+		widget.NewHBox(
+			layout.NewSpacer(),
+			widget.NewLabel("Load Example:"),
+			quickSelect,
+			layout.NewSpacer(),
+		),
+		bgc,
+		bc,
+		dbc,
+		hlc,
+		tc,
+		dtc,
+		ic,
+		dic,
+		phc,
+		pc,
+		hc,
+		fc,
+		sbc,
+		sc,
 		padding,
 		icon,
 		textSize,
