@@ -46,9 +46,6 @@ func main() {
 	yamlEntry := widget.NewMultiLineEntry()
 	yamlEntry.SetText(y)
 
-	for _, s := range os.Environ() {
-		fmt.Println(s)
-	}
 	w.SetContent(widget.NewVBox(
 		widget.NewLabel("Theme From Yaml Example"),
 		widget.NewButtonWithIcon("Quit", theme.CancelIcon(), func() {
