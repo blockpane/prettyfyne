@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
+	"fyne.io/fyne/dialog"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
@@ -127,6 +128,16 @@ func main() {
 		//w.Content().Refresh()
 		apply.Tapped(&fyne.PointEvent{})
 	}
+	w.SetMainMenu(fyne.NewMainMenu(
+		fyne.NewMenu("Import", fyne.NewMenuItem("Paste Yaml", func() {
+			go func() {
+				y := loadPastedYaml()
+				if y != nil {
+					set(*y)
+				}
+			}()
+		})),
+	))
 	quickSelect := widget.NewSelect(
 		[]string{
 			"Default Theme",
@@ -301,3 +312,46 @@ func main() {
 	w.ShowAndRun()
 }
 
+func loadPastedYaml() *prettyfyne.PrettyTheme {
+	themeChan := make(chan *prettyfyne.PrettyTheme)
+	cancelChan := make(chan bool)
+	pop := &widget.PopUp{}
+	winSize := fyne.CurrentApp().Driver().AllWindows()[0].Canvas().Size()
+	in := widget.NewMultiLineEntry()
+	cancel := widget.NewButtonWithIcon("Cancel", theme.CancelIcon(), func() {
+		cancelChan <- true
+		pop.Hide()
+	})
+	apply := widget.NewButtonWithIcon("Load", theme.ConfirmIcon(), func() {
+		pt, _, err := prettyfyne.UnmarshalYaml([]byte(in.Text))
+		if err != nil {
+			go dialog.ShowError(err, fyne.CurrentApp().Driver().AllWindows()[0])
+			return
+		}
+		pop.Hide()
+		themeChan <- pt
+	})
+
+	pop = widget.NewPopUp(
+		fyne.NewContainerWithLayout(layout.NewFixedGridLayout(fyne.NewSize(winSize.Width,winSize.Height)),
+			widget.NewVBox(
+				fyne.NewContainerWithLayout(layout.NewFixedGridLayout(fyne.NewSize(winSize.Width,winSize.Height-50)),
+					widget.NewScrollContainer(in),
+				),
+				widget.NewHBox(layout.NewSpacer(), cancel, apply, layout.NewSpacer()),
+			),
+		),
+		fyne.CurrentApp().Driver().AllWindows()[0].Canvas(),
+	)
+
+	pop.Show()
+	for {
+		select {
+		case <-cancelChan:
+			return nil
+		case t := <-themeChan:
+			return t
+		}
+	}
+
+}
