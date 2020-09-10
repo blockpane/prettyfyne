@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 	"image"
 	"image/color"
 	"sort"

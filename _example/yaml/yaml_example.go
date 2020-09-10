@@ -7,7 +7,7 @@ import (
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 	"os"
 	"time"
 )

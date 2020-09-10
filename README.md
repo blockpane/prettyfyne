@@ -15,7 +15,7 @@ Included here are:
  This is very early in the development stage, so much is missing like better color pallets, a variety of pre-built themes,
  unit tests, actually ... testing of any kind.
 
- for examples see the [_example](http://github.com/frameloss/prettyfyne/_example) folder.
+ for examples see the [_example](http://github.com/blockpane/prettyfyne/_example) folder.
 
  ## Usage
 
@@ -35,7 +35,7 @@ import (
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 	"image/color"
 	"time"
 )

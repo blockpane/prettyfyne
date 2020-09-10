@@ -5,7 +5,7 @@ import (
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 	"image/color"
 	"time"
 )

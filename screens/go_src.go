@@ -2,7 +2,7 @@ package screens
 
 import (
 	"fmt"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 )
 
 func ToGoSource(config prettyfyne.PrettyThemeConfig) string {

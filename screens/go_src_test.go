@@ -2,7 +2,7 @@ package screens
 
 import (
 	"fmt"
-	"github.com/frameloss/prettyfyne"
+	"github.com/blockpane/prettyfyne"
 	"testing"
 )
 

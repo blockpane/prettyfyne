@@ -154,7 +154,7 @@ func Preview() *fyne.Container {
 		widget.NewCheck("Last one.", func(b bool){}),
 	)
 
-	uri, _ := url.Parse("https://github.com/frameloss/prettyfyne")
+	uri, _ := url.Parse("https://github.com/blockpane/prettyfyne")
 
 	return fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		widget.NewScrollContainer(

@@ -1,4 +1,4 @@
-module github.com/frameloss/prettyfyne
+module github.com/blockpane/prettyfyne
 
 go 1.14
 

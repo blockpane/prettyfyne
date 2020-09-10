@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/theme"
 	"fyne.io/fyne/widget"
-	pf "github.com/frameloss/prettyfyne"
+	pf "github.com/blockpane/prettyfyne"
 	"golang.org/x/image/colornames"
 	"image/color"
 	"time"
