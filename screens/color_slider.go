@@ -2,17 +2,19 @@ package screens
 
 import (
 	"fmt"
-	"fyne.io/fyne"
-	"fyne.io/fyne/canvas"
-	"fyne.io/fyne/layout"
-	"fyne.io/fyne/widget"
-	"github.com/blockpane/prettyfyne"
 	"image"
 	"image/color"
 	"sort"
 	"strconv"
 	"sync"
 	"time"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
+	"github.com/blockpane/prettyfyne"
 )
 
 func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyne.Container {
@@ -52,7 +54,6 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 		return s
 	}()
 
-
 	spacer := layout.NewSpacer()
 	sampleColor := canvas.NewImageFromImage(imageRgba(rgba, 36, 36))
 
@@ -68,7 +69,7 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 			}
 			rMux.Unlock()
 		}()
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		updated()
 	}
@@ -85,7 +86,7 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 			}
 			gMux.Unlock()
 		}()
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		updated()
 	}
@@ -102,7 +103,7 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 			}
 			bMux.Unlock()
 		}()
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		updated()
 	}
@@ -119,22 +120,22 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 			}
 			aMux.Unlock()
 		}()
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		updated()
 	}
 
-	rgbaEntries := fyne.NewContainerWithLayout(layout.NewGridLayout(4), rEntry, gEntry, bEntry, aEntry)
+	rgbaEntries := container.New(layout.NewGridLayout(4), rEntry, gEntry, bEntry, aEntry)
 
 	slider := widget.NewSlider(0, float64(len(colorPallet)-1))
 	slider.Step = 1.0
 	slider.OnChanged = func(f float64) {
 		r(colorPallet[int(f)])
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		updated()
 	}
-	colorSelect := widget.NewSelect(pallets, func(s string){
+	colorSelect := widget.NewSelect(pallets, func(s string) {
 		switch s {
 		case "Default":
 			slider.Hide()
@@ -152,13 +153,13 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 		default:
 			slider.Show()
 			colorPallet = palletMap[s]
-			slider.Max = float64(len(palletMap[s])-1)
-			slider.Value = float64(len(palletMap[s])/2)
+			slider.Max = float64(len(palletMap[s]) - 1)
+			slider.Value = float64(len(palletMap[s]) / 2)
 			r(colorPallet[int(slider.Value)])
 			spacer.Hide()
 			rgbaEntries.Hide()
 		}
-		sampleColor.Image = imageRgba(rgba , 36, 36)
+		sampleColor.Image = imageRgba(rgba, 36, 36)
 		sampleColor.Refresh()
 		slider.Refresh()
 		updated()
@@ -166,10 +167,10 @@ func ColorSlider(label string, rgba *color.RGBA, newColor chan *color.RGBA) *fyn
 	colorSelect.SetSelected("Values")
 
 	sampleColor.Refresh()
-	return fyne.NewContainerWithLayout(
+	return container.New(
 		layout.NewGridLayout(4),
 		widget.NewLabel(label),
-		widget.NewHBox(
+		container.NewHBox(
 			widget.NewLabel("Colors"),
 			colorSelect,
 		),
@@ -197,4 +198,3 @@ func checkRgbaInput(s string) uint8 {
 	}
 	return uint8(i)
 }
-

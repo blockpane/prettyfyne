@@ -2,6 +2,7 @@ package screens
 
 import (
 	"fmt"
+
 	"github.com/blockpane/prettyfyne"
 )
 
@@ -11,8 +12,8 @@ func ToGoSource(config prettyfyne.PrettyThemeConfig) string {
 import (
          "image/color"
 
-         "fyne.io/fyne"
-         "fyne.io/fyne/theme"
+         "fyne.io/fyne/v2"
+         "fyne.io/fyne/v2/theme"
 )
 
 // customTheme is based upon the custom theme example in the fyne_demo application. It is generated from the 
@@ -78,8 +79,8 @@ func (customTheme) ShadowColor() color.Color {
          return %#v
 }
 
-func (customTheme) TextSize() int {
-         return %d
+func (customTheme) TextSize() float32 {
+         return %v
 }
 
 // TODO: for now, demo still returns default fonts
@@ -103,20 +104,20 @@ func (customTheme) TextMonospaceFont() fyne.Resource {
          return theme.DefaultTextMonospaceFont()
 }
 
-func (customTheme) Padding() int {
-         return %d
+func (customTheme) Padding() float32 {
+         return %v
 }
 
-func (customTheme) IconInlineSize() int {
-         return %d
+func (customTheme) IconInlineSize() float32 {
+         return %v
 }
 
-func (customTheme) ScrollBarSize() int {
-         return %d
+func (customTheme) ScrollBarSize() float32 {
+         return %v
 }
 
-func (customTheme) ScrollBarSmallSize() int {
-         return %d
+func (customTheme) ScrollBarSmallSize() float32 {
+         return %v
 }
 
 func newCustomTheme() fyne.Theme {

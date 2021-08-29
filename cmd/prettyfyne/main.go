@@ -2,17 +2,19 @@ package main
 
 import (
 	"fmt"
-	"fyne.io/fyne"
-	"fyne.io/fyne/app"
-	"fyne.io/fyne/dialog"
-	"fyne.io/fyne/layout"
-	"fyne.io/fyne/theme"
-	"fyne.io/fyne/widget"
+	"image/color"
+	"time"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
 	"github.com/blockpane/prettyfyne"
 	"github.com/blockpane/prettyfyne/screens"
 	"gopkg.in/yaml.v2"
-	"image/color"
-	"time"
 )
 
 func main() {
@@ -40,33 +42,33 @@ func main() {
 	go func() {
 		for {
 			select {
-			case c := <- BackgroundColorChan:
+			case c := <-BackgroundColorChan:
 				pfc.BackgroundColor = c
-			case c := <- ButtonColorChan:
+			case c := <-ButtonColorChan:
 				pfc.ButtonColor = c
-			case c := <- DisabledButtonColorChan:
+			case c := <-DisabledButtonColorChan:
 				pfc.DisabledButtonColor = c
-			case c := <- HyperlinkColorChan:
+			case c := <-HyperlinkColorChan:
 				pfc.HyperlinkColor = c
-			case c := <- TextColorChan:
+			case c := <-TextColorChan:
 				pfc.TextColor = c
-			case c := <- DisabledTextColorChan:
+			case c := <-DisabledTextColorChan:
 				pfc.DisabledTextColor = c
-			case c := <- IconColorChan:
+			case c := <-IconColorChan:
 				pfc.IconColor = c
-			case c := <- DisabledIconColorChan:
+			case c := <-DisabledIconColorChan:
 				pfc.DisabledIconColor = c
-			case c := <- PlaceHolderColorChan:
+			case c := <-PlaceHolderColorChan:
 				pfc.PlaceHolderColor = c
-			case c := <- PrimaryColorChan:
+			case c := <-PrimaryColorChan:
 				pfc.PrimaryColor = c
-			case c := <- HoverColorChan:
+			case c := <-HoverColorChan:
 				pfc.HoverColor = c
-			case c := <- FocusColorChan:
+			case c := <-FocusColorChan:
 				pfc.FocusColor = c
-			case c := <- ScrollBarColorChan:
+			case c := <-ScrollBarColorChan:
 				pfc.ScrollBarColor = c
-			case c := <- ShadowColorChan:
+			case c := <-ShadowColorChan:
 				pfc.ShadowColor = c
 			}
 		}
@@ -168,45 +170,45 @@ func main() {
 		},
 	)
 
-	paddingValue := widget.NewLabel(fmt.Sprintf("%d", pfc.Padding))
+	paddingValue := widget.NewLabel(fmt.Sprintf("%v", pfc.Padding))
 	paddingSlider := widget.NewSlider(1.0, 32.0)
 	paddingSlider.Step = 1.0
 	paddingSlider.OnChanged = func(f float64) {
-		paddingValue.SetText(fmt.Sprintf("%d", int(f)))
-		pfc.Padding = int(f)
+		paddingValue.SetText(fmt.Sprintf("%v", float32(f)))
+		pfc.Padding = float32(f)
 	}
 	paddingSlider.Value = float64(pfc.Padding)
-	padding := fyne.NewContainerWithLayout(layout.NewGridLayout(4),
+	padding := container.New(layout.NewGridLayout(4),
 		widget.NewLabel("Padding"),
 		layout.NewSpacer(),
 		paddingSlider,
 		paddingValue,
 	)
 
-	iconValue := widget.NewLabel(fmt.Sprintf("%d", pfc.IconInlineSize))
+	iconValue := widget.NewLabel(fmt.Sprintf("%v", pfc.IconInlineSize))
 	iconSlider := widget.NewSlider(1, 128)
 	iconSlider.Step = 1
 	iconSlider.Value = float64(pfc.IconInlineSize)
 	iconSlider.OnChanged = func(f float64) {
-		iconValue.SetText(fmt.Sprintf("%d", int(f)))
-		pfc.IconInlineSize = int(f)
+		iconValue.SetText(fmt.Sprintf("%v", float32(f)))
+		pfc.IconInlineSize = float32(f)
 	}
-	icon := fyne.NewContainerWithLayout(layout.NewGridLayout(4),
+	icon := container.New(layout.NewGridLayout(4),
 		widget.NewLabel("Icon Size"),
 		layout.NewSpacer(),
 		iconSlider,
 		iconValue,
 	)
 
-	textSizeValue := widget.NewLabel(fmt.Sprintf("%d", pfc.TextSize))
+	textSizeValue := widget.NewLabel(fmt.Sprintf("%v", pfc.TextSize))
 	textSizeSlider := widget.NewSlider(1, 64)
 	textSizeSlider.Step = 1
 	textSizeSlider.Value = float64(pfc.TextSize)
 	textSizeSlider.OnChanged = func(f float64) {
-		textSizeValue.SetText(fmt.Sprintf("%d", int(f)))
-		pfc.TextSize = int(f)
+		textSizeValue.SetText(fmt.Sprintf("%v", float32(f)))
+		pfc.TextSize = float32(f)
 	}
-	textSize := fyne.NewContainerWithLayout(layout.NewGridLayout(4),
+	textSize := container.New(layout.NewGridLayout(4),
 		widget.NewLabel("Text Size"),
 		layout.NewSpacer(),
 		textSizeSlider,
@@ -215,17 +217,17 @@ func main() {
 
 	//TODO: font selection
 	/*
-	textFontEntry := widget.NewEntry()
-	textFontPathEntry := widget.NewEntry()
-	textBoldFontEntry := widget.NewEntry()
-	textBoldFontPathEntry := widget.NewEntry()
-	textItalicFontEntry := widget.NewEntry()
-	textItalicFontPathEntry := widget.NewEntry()
-	textBoldItalicFontEntry := widget.NewEntry()
-	textBoldItalicFontPathEntry := widget.NewEntry()
-	textMonospaceFontEntry := widget.NewEntry()
-	textMonospaceFontPathEntry := widget.NewEntry()
-	 */
+		textFontEntry := widget.NewEntry()
+		textFontPathEntry := widget.NewEntry()
+		textBoldFontEntry := widget.NewEntry()
+		textBoldFontPathEntry := widget.NewEntry()
+		textItalicFontEntry := widget.NewEntry()
+		textItalicFontPathEntry := widget.NewEntry()
+		textBoldItalicFontEntry := widget.NewEntry()
+		textBoldItalicFontPathEntry := widget.NewEntry()
+		textMonospaceFontEntry := widget.NewEntry()
+		textMonospaceFontPathEntry := widget.NewEntry()
+	*/
 
 	tabSourceText := widget.NewMultiLineEntry()
 	tabSourceText.SetText("Go source example will show here after applying the new theme")
@@ -234,7 +236,7 @@ func main() {
 	tabYamlText := widget.NewMultiLineEntry()
 	tabYamlText.SetText("YAML theme config will show here after applying the new theme")
 
-	apply = widget.NewButtonWithIcon("Apply", theme.ConfirmIcon(), func(){
+	apply = widget.NewButtonWithIcon("Apply", theme.ConfirmIcon(), func() {
 		y, _ := yaml.Marshal(pfc)
 		pt, _, _ := prettyfyne.UnmarshalYaml(y)
 		tabYamlText.SetText(string(y))
@@ -244,13 +246,13 @@ func main() {
 		w.Content().Refresh()
 	})
 
-	tabChooserContent := widget.NewScrollContainer(widget.NewVBox(
-		widget.NewHBox(
+	tabChooserContent := container.NewScroll(container.NewHBox(
+		container.NewHBox(
 			layout.NewSpacer(),
 			widget.NewLabel("Pretty Fyne Theme Editor"),
 			layout.NewSpacer(),
 		),
-		widget.NewHBox(
+		container.NewHBox(
 			layout.NewSpacer(),
 			widget.NewLabel("Load Example:"),
 			quickSelect,
@@ -273,33 +275,33 @@ func main() {
 		padding,
 		icon,
 		textSize,
-		widget.NewHBox(layout.NewSpacer(), apply, widget.NewButtonWithIcon("Exit", theme.CancelIcon(), func() {a.Quit()}), layout.NewSpacer()),
+		container.NewHBox(layout.NewSpacer(), apply, widget.NewButtonWithIcon("Exit", theme.CancelIcon(), func() { a.Quit() }), layout.NewSpacer()),
 	))
-	tabChooser := widget.NewTabItem("Settings", tabChooserContent)
+	tabChooser := container.NewTabItem("Settings", tabChooserContent)
 
-	tabYamlContent := fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-		widget.NewScrollContainer(tabYamlText),
+	tabYamlContent := container.New(layout.NewMaxLayout(),
+		container.NewScroll(tabYamlText),
 	)
-	tabYaml := widget.NewTabItem("Generated Yaml", tabYamlContent)
+	tabYaml := container.NewTabItem("Generated Yaml", tabYamlContent)
 
-	tabSourceContent := fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-		widget.NewScrollContainer(tabSourceText),
+	tabSourceContent := container.New(layout.NewMaxLayout(),
+		container.NewScroll(tabSourceText),
 	)
-	tabSource := widget.NewTabItem("Generated Go Source (Native Fyne Theme)", tabSourceContent)
+	tabSource := container.NewTabItem("Generated Go Source (Native Fyne Theme)", tabSourceContent)
 
-	tabPftSourceContent := fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-		widget.NewScrollContainer(tabPftSourceText),
+	tabPftSourceContent := container.New(layout.NewMaxLayout(),
+		container.NewScroll(tabPftSourceText),
 	)
-	tabPftSource := widget.NewTabItem("Generated Go Source (Pretty Fyne Theme)", tabPftSourceContent)
+	tabPftSource := container.NewTabItem("Generated Go Source (Pretty Fyne Theme)", tabPftSourceContent)
 
-	tabPreview := widget.NewTabItem("Preview Widgets", screens.Preview())
+	tabPreview := container.NewTabItem("Preview Widgets", screens.Preview())
 
-	tabs := widget.NewTabContainer(tabChooser, tabPreview, tabYaml, tabSource, tabPftSource)
+	tabs := container.NewAppTabs(tabChooser, tabPreview, tabYaml, tabSource, tabPftSource)
 	w.SetContent(
-		fyne.NewContainerWithLayout(layout.NewFixedGridLayout(fyne.NewSize(1000, 1000)),
+		container.New(layout.NewGridWrapLayout(fyne.NewSize(1000, 1000)),
 			tabs,
 		))
-	go func(){
+	go func() {
 		for {
 			time.Sleep(20 * time.Millisecond)
 			if tabs.Visible() {
@@ -333,12 +335,12 @@ func loadPastedYaml() *prettyfyne.PrettyTheme {
 	})
 
 	pop = widget.NewPopUp(
-		fyne.NewContainerWithLayout(layout.NewFixedGridLayout(fyne.NewSize(winSize.Width,winSize.Height)),
-			widget.NewVBox(
-				fyne.NewContainerWithLayout(layout.NewFixedGridLayout(fyne.NewSize(winSize.Width,winSize.Height-50)),
-					widget.NewScrollContainer(in),
+		container.New(layout.NewGridWrapLayout(fyne.NewSize(winSize.Width, winSize.Height)),
+			container.NewVBox(
+				container.New(layout.NewGridWrapLayout(fyne.NewSize(winSize.Width, winSize.Height-50)),
+					container.NewScroll(in),
 				),
-				widget.NewHBox(layout.NewSpacer(), cancel, apply, layout.NewSpacer()),
+				container.NewHBox(layout.NewSpacer(), cancel, apply, layout.NewSpacer()),
 			),
 		),
 		fyne.CurrentApp().Driver().AllWindows()[0].Canvas(),

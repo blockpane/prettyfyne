@@ -2,6 +2,7 @@ package screens
 
 import (
 	"fmt"
+
 	"github.com/blockpane/prettyfyne"
 )
 
@@ -9,10 +10,10 @@ func ToEasierGoSource(config prettyfyne.PrettyThemeConfig) string {
 	return fmt.Sprintf(`package main
 
 import (
-        "fyne.io/fyne"
-        "fyne.io/fyne/app"
-        "fyne.io/fyne/theme"
-        "fyne.io/fyne/widget"
+        "fyne.io/fyne/v2"
+        "fyne.io/fyne/v2/app"
+        "fyne.io/fyne/v2/theme"
+        "fyne.io/fyne/v2/widget"
         "github.com/blockpane/prettyfyne"
         "image/color"
         "time"
@@ -37,16 +38,16 @@ func main()  {
                 FocusColor:             %#v,
                 ScrollBarColor:         %#v,
                 ShadowColor:            %#v,
-                TextSize:               %d,
+                TextSize:               %v,
                 TextFont:               theme.DarkTheme().TextFont(),
                 TextBoldFont:           theme.DarkTheme().TextBoldFont(),
                 TextItalicFont:         theme.DarkTheme().TextItalicFont(),
                 TextBoldItalicFont:     theme.DarkTheme().TextBoldItalicFont(),
                 TextMonospaceFont:      theme.DarkTheme().TextMonospaceFont(),
-                Padding:                %d,
-                IconInlineSize:         %d,
-                ScrollBarSize:          %d,
-                ScrollBarSmallSize:     %d,
+                Padding:                %v,
+                IconInlineSize:         %v,
+                ScrollBarSize:          %v,
+                ScrollBarSmallSize:     %v,
         }
 
         hello := widget.NewLabel("Hello Pretty Fyne!")

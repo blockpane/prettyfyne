@@ -1,8 +1,9 @@
 package prettyfyne
 
 import (
-	"gopkg.in/yaml.v2"
 	"image/color"
+
+	"gopkg.in/yaml.v2"
 )
 
 // PrettyThemeConfig is used for serialization and loading from yaml
@@ -21,7 +22,7 @@ type PrettyThemeConfig struct {
 	FocusColor             *color.RGBA `yaml:"focus_color,omitempty"`
 	ScrollBarColor         *color.RGBA `yaml:"scroll_bar_color,omitempty"`
 	ShadowColor            *color.RGBA `yaml:"shadow_color,omitempty"`
-	TextSize               int         `yaml:"text_size,omitempty"`
+	TextSize               float32     `yaml:"text_size,omitempty"`
 	TextFontPath           string      `yaml:"text_font_path,omitempty"`
 	TextFont               string      `yaml:"text_font,omitempty"`
 	TextBoldFontPath       string      `yaml:"text_bold_font_path,omitempty"`
@@ -32,10 +33,10 @@ type PrettyThemeConfig struct {
 	TextBoldItalicFont     string      `yaml:"text_bold_italic_font,omitempty"`
 	TextMonospaceFontPath  string      `yaml:"text_monospace_font_path,omitempty"`
 	TextMonospaceFont      string      `yaml:"text_monospace_font,omitempty"`
-	Padding                int         `yaml:"padding,omitempty"`
-	IconInlineSize         int         `yaml:"icon_inline_size,omitempty"`
-	ScrollBarSize          int         `yaml:"scroll_bar_size,omitempty"`
-	ScrollBarSmallSize     int         `yaml:"scroll_bar_small_size,omitempty"`
+	Padding                float32     `yaml:"padding,omitempty"`
+	IconInlineSize         float32     `yaml:"icon_inline_size,omitempty"`
+	ScrollBarSize          float32     `yaml:"scroll_bar_size,omitempty"`
+	ScrollBarSmallSize     float32     `yaml:"scroll_bar_small_size,omitempty"`
 }
 
 // UnmarshalYaml will override the default theme settings with what is stored in a yaml file. All fields are optional
